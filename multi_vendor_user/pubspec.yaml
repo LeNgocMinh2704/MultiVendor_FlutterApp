@@ -97,6 +97,8 @@ dependencies:
     marquee: ^2.2.3
     gap: ^3.0.1
     easy_localization: ^3.0.3
+    flutter_polyline_points: ^1.0.0
+    modal_bottom_sheet: ^2.1.2
 
 dev_dependencies:
     flutter_test:

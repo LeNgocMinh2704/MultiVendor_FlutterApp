@@ -23,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   String playerId = '';
   String getOnesignalKey = '';
   bool showPassword = true;
-
   @override
   void initState() {
     super.initState();
@@ -34,26 +33,41 @@ class _LoginPageState extends State<LoginPage> {
         const Duration(milliseconds: 100), (Timer t) => initOneSignal());
   }
 
-  initOneSignal() {
+  Future<void> initOneSignal() async {
     if (getOnesignalKey != '') {
-      OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-      debugPrint('One singal app id is jjjjjj');
-      OneSignal.shared.setAppId(getOnesignalKey);
+      OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
+      OneSignal.Debug.setAlertLevel(OSLogLevel.none);
+      debugPrint('One singal app id is 696969');
+      OneSignal.initialize(getOnesignalKey);
+      // OneSignal.shared.setAppId(getOnesignalKey);
       debugPrint('$getOnesignalKey is firebase oneSignal key');
-      OneSignal.shared
-          .promptUserForPushNotificationPermission()
-          .then((accepted) {
-        debugPrint("Accepted permission: $accepted");
-      });
+      // OneSignal.shared
+      //     .promptUserForPushNotificationPermission()
+      //     .then((accepted) {
+      //   debugPrint("Accepted permission: $accepted");
+      // });
+      OneSignal.Notifications.clearAll();
+
+    OneSignal.User.pushSubscription.addObserver((state) {
+      print(OneSignal.User.pushSubscription.optedIn);
+      print(OneSignal.User.pushSubscription.id);
+      print(OneSignal.User.pushSubscription.token);
+      print(state.current.jsonRepresentation());
+    });
+    OneSignal.Notifications.requestPermission(true);
+    OneSignal.Notifications.addPermissionObserver((state) {
+      print("Has permission " + state.toString());
+    });
       oneSignalTimer!.cancel();
     }
   }
 
-  void _handleGetDeviceState() async {
+  Future<void> _handleGetDeviceState() async {
     debugPrint("Getting DeviceState");
-    var deviceState = await OneSignal.shared.getDeviceState();
+    // var deviceState = await OneSignal.shared.getDeviceState();
+    var deviceState = await OneSignal.User.pushSubscription.id;
     setState(() {
-      playerId = deviceState!.userId!;
+      playerId = deviceState!;
     });
 
     debugPrint('$playerId is your player ID');

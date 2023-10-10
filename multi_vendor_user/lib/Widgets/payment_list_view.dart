@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'flutterwave.dart';
 import 'stripe.dart';
-import 'paystack.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class PaymentListView extends StatefulWidget {
@@ -137,75 +135,7 @@ class _PaymentListViewState extends State<PaymentListView> {
                   ),
                 ),
               ),
-        flutterwave == false
-            ? Container()
-            : InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => FlutterwavePage(id: widget.id)));
-                },
-                child: SizedBox(
-                  height: 120,
-                  width: 160,
-                  child: Card(
-                    elevation: 10,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: const Text(
-                                    'Tap To Upload Money In Wallet With',
-                                    textAlign: TextAlign.center)
-                                .tr(),
-                          ),
-                           Padding(
-                            padding: const EdgeInsets.only(left: 8, right: 8),
-                            child: Image.asset(
-                              'assets/image/flutterwave.png',
-                              height: 70,
-                              scale: 4,
-                            ),
-                          ),
-                        ]),
-                  ),
-                ),
-              ),
-        paystack == false
-            ? Container()
-            : InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PaystackPage(
-                            id: widget.id,
-                            backendUrl: backendUrl,
-                            paystackPublicKey: paystackPublicKey,
-                          )));
-                },
-                child: SizedBox(
-                  height: 120,
-                  width: 160,
-                  child: Card(
-                    elevation: 10,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: const Text(
-                                    'Tap To Upload Money In Wallet With',
-                                    textAlign: TextAlign.center)
-                                .tr(),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8, right: 8),
-                            child: Image.asset('assets/image/paystack.png',
-                                scale: 1, height: 70),
-                          ),
-                        ]),
-                  ),
-                ),
-              ),
+
         // paystack == false
         //     ? Container()
         //     : InkWell(
