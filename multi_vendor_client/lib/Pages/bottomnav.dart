@@ -104,14 +104,6 @@ class _BottomNavState extends State<BottomNav> {
   dynamic themeMode;
   var _lightTheme = true;
 
-  void onThemeChanged(bool value, ThemeNotifier themeNotifier) async {
-    (value)
-        ? themeNotifier.setTheme(lightTheme)
-        : themeNotifier.setTheme(darkTheme);
-    var prefs = await SharedPreferences.getInstance();
-    prefs.setBool('lightMode', value);
-  }
-
   getThemeDetail() async {
     SharedPreferences.getInstance().then((prefs) {
       var lightModeOn = prefs.getBool('lightMode');
@@ -121,6 +113,14 @@ class _BottomNavState extends State<BottomNav> {
     });
   }
 
+
+  void onThemeChanged(bool value, ThemeNotifier themeNotifier) async {
+    (value)
+        ? themeNotifier.setTheme(lightTheme)
+        : themeNotifier.setTheme(darkTheme);
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setBool('lightMode', value);
+  }
   bool verification = true;
 
   verificationStatus() {

@@ -48,17 +48,7 @@ class _CashoutState extends State<Cashout> {
     //print(wallet);
   }
 
-  Future<void> _getUser() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    User? user = auth.currentUser;
-    setState(() {
-      userRef = firestore.collection('vendors').doc(user!.uid);
-    });
-    //print(wallet);
-  }
-
+  // Get symbol 
   getCurrencySymbol() {
     FirebaseFirestore.instance
         .collection('Currency Settings')
@@ -70,6 +60,18 @@ class _CashoutState extends State<Cashout> {
       });
     });
   }
+
+  Future<void> _getUser() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    User? user = auth.currentUser;
+    setState(() {
+      userRef = firestore.collection('vendors').doc(user!.uid);
+    });
+    //print(wallet);
+  }
+
 
   @override
   void initState() {

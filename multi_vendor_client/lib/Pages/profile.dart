@@ -35,6 +35,9 @@ class _ProfilePageState extends State<ProfilePage> {
   String userPicMain = '';
   String addressMain = '';
 
+
+  XFile? imageFile;
+  bool? loading;
   @override
   void initState() {
     super.initState();
@@ -85,8 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
   // Select and image from the gallery or take a picture with the camera
   // Then upload to Firebase Storage
 
-  XFile? imageFile;
-  bool? loading;
+
   Future<void> _upload() async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -112,19 +114,20 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
-  whenAddressIsEmpty() {
-    if (addressMain == '') {
-      return address;
-    } else {
-      return addressMain;
-    }
-  }
-
+  
   whenProfilePicIsempty() {
     if (userPicMain == '') {
       return userPic;
     } else {
       return userPicMain;
+    }
+  }
+
+  whenAddressIsEmpty() {
+    if (addressMain == '') {
+      return address;
+    } else {
+      return addressMain;
     }
   }
 

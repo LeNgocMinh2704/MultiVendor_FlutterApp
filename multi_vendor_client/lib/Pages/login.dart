@@ -41,6 +41,18 @@ class _LoginPageState extends State<LoginPage> {
         const Duration(milliseconds: 100), (Timer t) => initOneSignal());
   }
 
+  // login
+  void _doSomething(RoundedLoadingButtonController controller, String email,
+      String password, BuildContext context, String playerId) async {
+    AuthService().signIn(email, password, context, playerId).then((value) {
+      if (AuthService().loginStatus == true) {
+        controller.success();
+      } else {
+        controller.reset();
+      }
+    });
+  }
+
   initOneSignal() {
     if (getOnesignalKey != '') {
       OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
@@ -82,17 +94,6 @@ class _LoginPageState extends State<LoginPage> {
 
   final RoundedLoadingButtonController _btnController1 =
       RoundedLoadingButtonController();
-
-  void _doSomething(RoundedLoadingButtonController controller, String email,
-      String password, BuildContext context, String playerId) async {
-    AuthService().signIn(email, password, context, playerId).then((value) {
-      if (AuthService().loginStatus == true) {
-        controller.success();
-      } else {
-        controller.reset();
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {

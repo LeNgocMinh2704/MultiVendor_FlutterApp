@@ -79,7 +79,6 @@ class _AccountPageState extends State<AccountPage> {
     getCurrencySymbol();
     // _getUserDetails();
     EasyLoading.addStatusCallback((status) {
-      //print('EasyLoading Status $status');
       if (status == EasyLoadingStatus.dismiss) {
         _timer?.cancel();
       }
@@ -88,7 +87,6 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    //print(vendorID);
     return ListView(
       children: [
         Container(
