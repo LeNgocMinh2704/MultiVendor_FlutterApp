@@ -56,7 +56,7 @@ defaultUpdate() {
   if (newPassword == null && adminImage == null && adminUsername == null) {
     FirebaseFirestore.instance.collection('Admin').doc('Admin').set({
       'password': '123456',
-      'ProfilePic': 'https://img.icons8.com/officel/2x/person-male.png',
+      'ProfilePic': 'https://i.ibb.co/RQk5HNM/cc9b5e47b8d54a4c49d8535995e485b1.jpg',
       'username': 'admin123@gmail.com',
       'commission': 0,
       'ParcelID': 0
