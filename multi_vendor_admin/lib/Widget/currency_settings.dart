@@ -123,8 +123,8 @@ class _CurrencySettingsState extends State<CurrencySettings> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey, width: 1.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
                               ),
                               hintText: whencurrencyNameisNull(),
                               focusColor: Colors.grey,
@@ -132,13 +132,13 @@ class _CurrencySettingsState extends State<CurrencySettings> {
                               fillColor: Colors.white10,
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey, width: 1.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey, width: 1.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
                               ),
                             )))
                   ],
@@ -173,8 +173,8 @@ class _CurrencySettingsState extends State<CurrencySettings> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey, width: 1.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
                               ),
                               hintText: whencurrencyCodeisNull(),
                               focusColor: Colors.grey,
@@ -182,13 +182,13 @@ class _CurrencySettingsState extends State<CurrencySettings> {
                               fillColor: Colors.white10,
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey, width: 1.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey, width: 1.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
                               ),
                             )))
                   ],
@@ -223,8 +223,8 @@ class _CurrencySettingsState extends State<CurrencySettings> {
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey, width: 1.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
                               ),
                               hintText: whencurrencySymbolisNull(),
                               focusColor: Colors.grey,
@@ -232,13 +232,13 @@ class _CurrencySettingsState extends State<CurrencySettings> {
                               fillColor: Colors.white10,
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey, width: 1.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
-                                borderSide:
-                                    const BorderSide(color: Colors.grey, width: 1.0),
+                                borderSide: const BorderSide(
+                                    color: Colors.grey, width: 1.0),
                               ),
                             )))
                   ],
