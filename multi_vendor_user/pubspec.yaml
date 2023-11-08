@@ -62,7 +62,7 @@ dependencies:
     google_maps_flutter: ^2.1.5
     badges: ^3.0.2
     flutter_stripe: ^9.4.0
-    onesignal_flutter: ^5.0.3
+    onesignal_flutter: ^3.0.3
     sn_progress_dialog: ^1.0.3
     animated_check: ^1.0.5
     intl: ^0.18.1
