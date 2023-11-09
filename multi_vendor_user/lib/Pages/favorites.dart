@@ -29,6 +29,24 @@ class _FavoritesPageState extends State<FavoritesPage> {
           .toList();
     });
   }
+  Stream<List<ProductsModel>> GetFav() {
+    return userRef!.collection('Favorite').snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) => ProductsModel.fromMap(doc.data(), doc.id))
+          .toList();
+    });
+  }
+
+  Future<void> _getUserDoc() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    User? user = auth.currentUser;
+    setState(() {
+      userRef = firestore.collection('users').doc(user!.uid);
+    });
+  }
+
 
   String currencySymbol = '';
   getCurrencySymbol() {
@@ -40,16 +58,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
       setState(() {
         currencySymbol = value['Currency symbol'];
       });
-    });
-  }
-
-  Future<void> _getUserDoc() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    User? user = auth.currentUser;
-    setState(() {
-      userRef = firestore.collection('users').doc(user!.uid);
     });
   }
 

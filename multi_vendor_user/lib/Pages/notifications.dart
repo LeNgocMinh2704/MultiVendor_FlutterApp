@@ -15,22 +15,13 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  DocumentReference? userDetails;
-  String id = '';
-  String addressID = '';
-  DocumentReference? userRef;
   String currencySymbol = '';
   num wallet = 0;
+  DocumentReference? userDetails;
+  String addressID = '';
+  String id = '';
 
-  Future<void> _getUserDoc() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    User? user = auth.currentUser;
-    setState(() {
-      userRef = firestore.collection('users').doc(user!.uid);
-    });
-  }
+  DocumentReference? userRef;
 
   Future<List<HistoryModel>> getHistory() {
     return userRef!
@@ -41,6 +32,16 @@ class _NotificationsPageState extends State<NotificationsPage> {
       return snapshot.docs
           .map((doc) => HistoryModel.fromMap(doc.data(), doc.id))
           .toList();
+    });
+  }
+
+  Future<void> _getUserDoc() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    User? user = auth.currentUser;
+    setState(() {
+      userRef = firestore.collection('users').doc(user!.uid);
     });
   }
 
