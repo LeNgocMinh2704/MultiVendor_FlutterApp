@@ -53,16 +53,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     });
   }
 
-  Future<void> _getUserDoc() async {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    User? user = auth.currentUser;
-    setState(() {
-      userRef = firestore.collection('users').doc(user!.uid);
-    });
-  }
-
   addToCart(ProductsModel productsModel) {
     userRef!
         .collection('Cart')
@@ -79,6 +69,16 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     });
     userRef!.update(
         {'CurrentMarketID': widget.marketID, 'deliveryFee': deliveryFee});
+  }
+
+  Future<void> _getUserDoc() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    User? user = auth.currentUser;
+    setState(() {
+      userRef = firestore.collection('users').doc(user!.uid);
+    });
   }
 
   addToFavorite(ProductsModel productsModel) {
@@ -111,24 +111,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             fontSize: 14.0));
   }
 
-  selectedUnitFunction() {
-    if (selectedUnit == 'unit1') {
-      return widget.productsModel.unitname1;
-    } else if (selectedUnit == 'unit2') {
-      return widget.productsModel.unitname2;
-    } else if (selectedUnit == 'unit3') {
-      return widget.productsModel.unitname3;
-    } else if (selectedUnit == 'unit4') {
-      return widget.productsModel.unitname4;
-    } else if (selectedUnit == 'unit5') {
-      return widget.productsModel.unitname5;
-    } else if (selectedUnit == 'unit6') {
-      return widget.productsModel.unitname6;
-    } else if (selectedUnit == 'unit7') {
-      return widget.productsModel.unitname7;
-    }
-  }
-
   selectedPriceFunction() {
     if (selectedUnit == 'unit1') {
       return widget.productsModel.unitPrice1 * quantity;
@@ -144,6 +126,24 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
       return widget.productsModel.unitPrice6 * quantity;
     } else if (selectedUnit == 'unit7') {
       return widget.productsModel.unitPrice7 * quantity;
+    }
+  }
+  
+  selectedUnitFunction() {
+    if (selectedUnit == 'unit1') {
+      return widget.productsModel.unitname1;
+    } else if (selectedUnit == 'unit2') {
+      return widget.productsModel.unitname2;
+    } else if (selectedUnit == 'unit3') {
+      return widget.productsModel.unitname3;
+    } else if (selectedUnit == 'unit4') {
+      return widget.productsModel.unitname4;
+    } else if (selectedUnit == 'unit5') {
+      return widget.productsModel.unitname5;
+    } else if (selectedUnit == 'unit6') {
+      return widget.productsModel.unitname6;
+    } else if (selectedUnit == 'unit7') {
+      return widget.productsModel.unitname7;
     }
   }
 
