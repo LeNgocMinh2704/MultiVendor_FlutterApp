@@ -17,6 +17,10 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Mode _mode = Mode.overlay;
+  final _formKey = GlobalKey<FormState>();
+  String address = '';
+  String houseNumber = '';
+  String id = '';
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +39,6 @@ class _MyAppState extends State<MyApp> {
           children: <Widget>[
             _buildDropdownMenu(),
             const SizedBox(height: 12),
-            ElevatedButton(
-              onPressed: _handlePressButton,
-              child: const Text('Search places'),
-            ),
             const SizedBox(height: 12),
             ElevatedButton(
               onPressed: () {

@@ -31,12 +31,29 @@ class MarketsByCategoriesPage extends StatefulWidget {
       _MarketsByCategoriesPageState();
 }
 
+  String fullname = '';
+  String email = '';
+  String userPic = '';
+  DocumentReference? userDetails;
+
 class _MarketsByCategoriesPageState extends State<MarketsByCategoriesPage>
     with TickerProviderStateMixin {
   final ScrollController sc = ScrollController();
   num cartQuantity = 0;
   DocumentReference? userRef;
   getCart() {
+    if (userRef != null) {
+      userRef!.collection('Cart').snapshots().listen((val) {
+        num tempTotal =
+            val.docs.fold(0, (tot, doc) => tot + doc.data()['quantity']);
+        setState(() {
+          cartQuantity = tempTotal;
+        });
+      });
+    }
+  }
+
+  getCartInfo() {
     if (userRef != null) {
       userRef!.collection('Cart').snapshots().listen((val) {
         num tempTotal =
@@ -64,12 +81,16 @@ class _MarketsByCategoriesPageState extends State<MarketsByCategoriesPage>
     _getUserDoc();
     super.initState();
   }
-
-  String fullname = '';
-  String email = '';
-  String userPic = '';
-  DocumentReference? userDetails;
-
+  Future<List<MarketModel>> getMarketsByCategories(String category) {
+    return FirebaseFirestore.instance
+        .collection('Markets')
+        .where('Approval', isEqualTo: true)
+        .where('Category', isEqualTo: category)
+        .get()
+        .then((event) => event.docs
+            .map((e) => MarketModel.fromMap(e.data(), e.id))
+            .toList());
+  }
   Future<void> _getUserDetails() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -99,16 +120,7 @@ class _MarketsByCategoriesPageState extends State<MarketsByCategoriesPage>
     super.dispose();
   }
 
-  Future<List<MarketModel>> getMarketsByCategories(String category) {
-    return FirebaseFirestore.instance
-        .collection('Markets')
-        .where('Approval', isEqualTo: true)
-        .where('Category', isEqualTo: category)
-        .get()
-        .then((event) => event.docs
-            .map((e) => MarketModel.fromMap(e.data(), e.id))
-            .toList());
-  }
+
 
   String search = "Search For Markets on".tr();
   @override
