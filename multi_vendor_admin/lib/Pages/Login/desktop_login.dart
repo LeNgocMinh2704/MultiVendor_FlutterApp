@@ -105,7 +105,7 @@ class _DesktopLoginState extends State<DesktopLogin>
               SizedBox(
                 height: MediaQuery.of(context).size.width >= 1100
                     ? MediaQuery.of(context).size.height / 1.8
-                    : MediaQuery.of(context).size.height / 2,
+                    : MediaQuery.of(context).size.height/ 2,
                 width: MediaQuery.of(context).size.width >= 1100
                     ? MediaQuery.of(context).size.width / 3
                     : MediaQuery.of(context).size.width / 1.2,
