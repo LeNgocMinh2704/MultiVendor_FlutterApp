@@ -37,6 +37,9 @@ class _ProductsBySubCategoriesState extends State<ProductsBySubCategories> {
           .toList();
     });
   }
+  
+  num cartQuantity = 0;
+  DocumentReference? userRef;
 
   String currencySymbol = '';
   getCurrencySymbol() {
@@ -66,9 +69,6 @@ class _ProductsBySubCategoriesState extends State<ProductsBySubCategories> {
     _scrollController.dispose(); // dispose the controller
     super.dispose();
   }
-
-  num cartQuantity = 0;
-  DocumentReference? userRef;
 
   getCart() {
     if (userRef != null) {
