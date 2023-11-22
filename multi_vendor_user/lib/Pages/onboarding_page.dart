@@ -26,14 +26,23 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     );
   }
 
+  
+  Widget building() {
+    return Image.asset(
+      'assets/image/vendors.jpg',
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    );
+  }
+
+
   Widget _buildImage(String assetName, [double width = 350]) {
     return Image.asset('assets/image/$assetName', width: width);
   }
 
-  @override
-  Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 15.0);
-
+  
     const pageDecoration = PageDecoration(
       titleTextStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
@@ -41,6 +50,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       pageColor: Colors.white,
       imagePadding: EdgeInsets.zero,
     );
+
+  @override
+  Widget build(BuildContext context) {
+    const bodyStyle = TextStyle(fontSize: 15.0);
+
 
     return IntroductionScreen(
       key: introKey,
@@ -54,6 +68,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
       //     ),
       //   ),
       // ),
+
 
       pages: [
         PageViewModel(
