@@ -9,7 +9,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:multi_vendor_user/Pages/products_by_categories.dart';
+import 'package:user_1/Pages/products_by_categories.dart';
 import '../Model/market.dart';
 import '../Widgets/flash_sales_slides.dart';
 import '../Widgets/market_widget_slider.dart';

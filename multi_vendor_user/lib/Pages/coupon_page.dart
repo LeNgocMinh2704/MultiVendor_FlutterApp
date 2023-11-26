@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:multi_vendor_user/Model/coupon.dart';
+import 'package:user_1/Model/coupon.dart';
 
 class CouponPage extends StatefulWidget {
   const CouponPage({Key? key}) : super(key: key);

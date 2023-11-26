@@ -1,6 +1,6 @@
 {
-    "name": "multi_vendor_user",
-    "short_name": "multi_vendor_user",
+    "name": "user_1",
+    "short_name": "user_1",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

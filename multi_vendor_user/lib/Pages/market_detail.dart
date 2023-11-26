@@ -4,7 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart' hide Badge;
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
-import 'package:multi_vendor_user/Model/market.dart';
+import 'package:user_1/Model/market.dart';
 import 'package:badges/badges.dart';
 import '../Widgets/flash_sales_list.dart';
 import '../Widgets/products_list.dart';

@@ -5,9 +5,9 @@ import 'dart:developer' as developer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:multi_vendor_user/Pages/connectivity.dart';
-import 'package:multi_vendor_user/Pages/home_page.dart';
-import 'package:multi_vendor_user/Pages/login_page.dart';
+import 'package:user_1/Pages/connectivity.dart';
+import 'package:user_1/Pages/home_page.dart';
+import 'package:user_1/Pages/login_page.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({Key? key}) : super(key: key);

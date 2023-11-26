@@ -8,7 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:marquee/marquee.dart';
-import 'package:multi_vendor_user/Pages/markets_by_categories_page.dart';
+import 'package:user_1/Pages/markets_by_categories_page.dart';
 import '../Model/categories.dart';
 
 class CategoriesPage extends StatefulWidget {
