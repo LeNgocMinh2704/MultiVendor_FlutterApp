@@ -1,4 +1,4 @@
-# multi_vendor_admin
+# admin_web
 
 A new Flutter project.
 

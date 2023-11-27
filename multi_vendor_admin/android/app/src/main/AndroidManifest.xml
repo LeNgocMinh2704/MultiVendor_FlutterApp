@@ -1,6 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application
-        android:label="multi_vendor_admin"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.admin_web">
+   <application
+        android:label="admin_web"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
