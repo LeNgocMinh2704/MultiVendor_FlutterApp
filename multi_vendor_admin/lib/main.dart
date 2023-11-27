@@ -78,14 +78,14 @@ defaultUpdate() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      options: const FirebaseOptions(
-          apiKey: "AIzaSyCtaN1p3fsKsBlQ1tw137D0BlFchg59bSo",
-          authDomain: "multi-vendor-8fa93.firebaseapp.com",
-          projectId: "multi-vendor-8fa93",
-          storageBucket: "multi-vendor-8fa93.appspot.com",
-          messagingSenderId: "1035370552872",
-          appId: "1:1035370552872:web:a23f252dfe4c6ed492df1d",
-          measurementId: "G-FGYM1K6KVX"));
+          options: const FirebaseOptions(
+            apiKey: "AIzaSyDqQFBmItGZNv0gIRKR2W1ZSOE9qBNel2Q",
+            authDomain: "multivendor-c4d09.firebaseapp.com",
+            projectId: "multivendor-c4d09",
+            storageBucket: "multivendor-c4d09.appspot.com",
+            messagingSenderId: "926136734127",
+            appId: "1:926136734127:web:2330aa90dc6faaf9715f5a"
+    ));
   var all = await SharedPreferences.getInstance();
   all.clear();
   SharedPreferences prefs = await SharedPreferences.getInstance();
