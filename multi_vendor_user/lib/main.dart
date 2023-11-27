@@ -23,7 +23,16 @@ void main() async {
     prefs.setInt("initScreen", 1);
   });
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+        options: const FirebaseOptions(
+          apiKey: "AIzaSyDqQFBmItGZNv0gIRKR2W1ZSOE9qBNel2Q",
+          authDomain: "multivendor-c4d09.firebaseapp.com",
+          projectId: "multivendor-c4d09",
+          storageBucket: "multivendor-c4d09.appspot.com",
+          messagingSenderId: "926136734127",
+          appId: "1:926136734127:web:2330aa90dc6faaf9715f5a"
+    )
+  );
   await EasyLocalization.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) {
