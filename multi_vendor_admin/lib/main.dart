@@ -1,4 +1,14 @@
+import 'Pages/coupon_page.dart';
+import 'Pages/feeds.dart';
+import 'Pages/home.dart';
+import 'Pages/Login/login.dart';
+import 'Pages/markets.dart';
+import 'Pages/notifications.dart';
+import 'Pages/orders.dart';
+import 'Pages/products.dart';
+import 'Pages/reviews.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -23,15 +33,7 @@ import 'Pages/Users Settings/vendors_page.dart';
 import 'Pages/Users Settings/user_settings.dart';
 import 'Pages/Users Settings/users_page.dart';
 //import 'Pages/cities.dart';
-import 'Pages/coupon_page.dart';
-import 'Pages/feeds.dart';
-import 'Pages/home.dart';
-import 'Pages/Login/login.dart';
-import 'Pages/markets.dart';
-import 'Pages/notifications.dart';
-import 'Pages/orders.dart';
-import 'Pages/products.dart';
-import 'Pages/reviews.dart';
+
 
 int? initScreen;
 bool? seen;
