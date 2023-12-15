@@ -26,7 +26,19 @@ class CheckoutPage extends StatefulWidget {
 
 class _CheckoutPageState extends State<CheckoutPage>
     with SingleTickerProviderStateMixin {
-    bool isAddressEmpty = false;
+  int _index = 0;
+  DocumentReference? userDetails;
+  String id = '';
+  String addressID = '';
+  DocumentReference? userRef;
+  String currencySymbol = '';
+  num subTotal = 0;
+  bool selectedStepper1 = true;
+  bool selectedStepper2 = false;
+  num deliveryFee = 0;
+  bool deliveryBool = true;
+  bool pickupBool = false;
+  bool isAddressEmpty = false;
   num wallet = 0;
   bool walletBool = false;
   bool cashOnDeliveryBool = false;
@@ -47,19 +59,6 @@ class _CheckoutPageState extends State<CheckoutPage>
   Timer? oneSignalTimer;
   String vendorToken = '';
   num couponReward = 0;
-  int _index = 0;
-  DocumentReference? userDetails;
-  String id = '';
-  String addressID = '';
-  DocumentReference? userRef;
-  String currencySymbol = '';
-  num subTotal = 0;
-  bool selectedStepper1 = true;
-  bool selectedStepper2 = false;
-  num deliveryFee = 0;
-  bool deliveryBool = true;
-  bool pickupBool = false;
-
 
   initOneSignal() {
     if (getOnesignalKey != '') {

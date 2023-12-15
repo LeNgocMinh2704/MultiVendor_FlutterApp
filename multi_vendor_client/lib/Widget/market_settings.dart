@@ -14,6 +14,21 @@ class _MarketSettingState extends State<MarketSetting> {
   String doorDeliveryDetails = '';
   String pickupDeliveryDetails = '';
 
+  updateMarketSettings(
+    String doorDeliveryDetails,
+    String pickupDeliveryDetails,
+  ) {
+    FirebaseFirestore.instance
+        .collection('Markets')
+        .doc(widget.marketID)
+        .update({
+      'doorDeliveryDetails': doorDeliveryDetails,
+      'pickupDeliveryDetails': pickupDeliveryDetails,
+    }).then((value) {
+      Navigator.of(context).pop();
+    });
+  }
+
   String doorDeliveryDetailsData = '';
   String pickupDeliveryDetailData = '';
 
@@ -27,22 +42,6 @@ class _MarketSettingState extends State<MarketSetting> {
         doorDeliveryDetailsData = value['doorDeliveryDetails'];
         pickupDeliveryDetailData = value['pickupDeliveryDetails'];
       });
-    });
-  }
-
-    updateMarketSettings(
-    String doorDeliveryDetails,
-    String pickupDeliveryDetails,
-  ) {
-    // print
-    FirebaseFirestore.instance
-        .collection('Markets')
-        .doc(widget.marketID)
-        .update({
-      'doorDeliveryDetails': doorDeliveryDetails,
-      'pickupDeliveryDetails': pickupDeliveryDetails,
-    }).then((value) {
-      Navigator.of(context).pop();
     });
   }
 
@@ -115,10 +114,10 @@ class _MarketSettingState extends State<MarketSetting> {
                   focusColor: Colors.grey,
                   filled: true,
                   fillColor: Colors.white10,
-                  // focusedBorder: OutlineInputBorder(
-                  //   borderRadius: BorderRadius.circular(10),
-                  //   borderSide: const BorderSide(color: Colors.grey, width: 1.0),
-                  // ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                    borderSide: const BorderSide(color: Colors.grey, width: 1.0),
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
                     borderSide: const BorderSide(color: Colors.grey, width: 1.0),

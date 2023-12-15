@@ -60,7 +60,7 @@ class _DeliveryBoysState extends State<DeliveryBoys> {
     return Scaffold(
         appBar: AppBar(
             elevation: 0,
-            //   backgroundColor: Colors.blue,
+         //   backgroundColor: Colors.blue,
             centerTitle: true,
             title: const Text(
               'Favorite Delivery boys',

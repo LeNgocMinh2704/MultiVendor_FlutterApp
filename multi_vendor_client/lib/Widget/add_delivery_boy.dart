@@ -112,12 +112,12 @@ class _AddDeliveryBoysState extends State<AddDeliveryBoys> {
                                     imageUrl: userModel.photoUrl == ''
                                         ? "https://eitrawmaterials.eu/wp-content/uploads/2016/09/person-icon.png"
                                         : userModel.photoUrl,
-                                    // placeholder: (context, url) =>
-                                    //     const SpinKitRing(
-                                    //   color: Colors.orange,
-                                    //   size: 30,
-                                    //   lineWidth: 3,
-                                    // ),
+                                    placeholder: (context, url) =>
+                                        const SpinKitRing(
+                                      color: Colors.orange,
+                                      size: 30,
+                                      lineWidth: 3,
+                                    ),
                                     errorWidget: (context, url, error) =>
                                         const Icon(Icons.error),
                                   ),
