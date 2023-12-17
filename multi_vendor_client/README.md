@@ -1,4 +1,4 @@
-# multi_vendor_client
+# vendor
 
 A new Flutter project.
 

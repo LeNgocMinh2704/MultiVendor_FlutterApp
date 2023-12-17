@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = multi_vendor_client
+PRODUCT_NAME = vendor
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.multiVendorClient
+PRODUCT_BUNDLE_IDENTIFIER = com.project.multivendor
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
