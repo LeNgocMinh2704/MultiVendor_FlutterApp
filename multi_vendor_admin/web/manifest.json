@@ -1,6 +1,6 @@
 {
-    "name": "multi_vendor_admin",
-    "short_name": "multi_vendor_admin",
+    "name": "admin_web",
+    "short_name": "admin_web",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
@@ -31,5 +31,6 @@
             "type": "image/png",
             "purpose": "maskable"
         }
+
     ]
 }

@@ -1,125 +1,201 @@
+import 'Pages/coupon_page.dart';
+import 'Pages/feeds.dart';
+import 'Pages/home.dart';
+import 'Pages/Login/login.dart';
+import 'Pages/markets.dart';
+import 'Pages/notifications.dart';
+import 'Pages/orders.dart';
+import 'Pages/products.dart';
+import 'Pages/reviews.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:admin_web/Pages/home_main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+// import 'Pages/Categories Settings/brands.dart';
+import 'Pages/Categories Settings/categories.dart';
+// import 'Pages/Categories Settings/sub_categories_collections.dart';
+import 'Pages/Categories Settings/sub_categories.dart';
+import 'Pages/Courier Settings/complete_deliveries.dart';
+import 'Pages/Courier Settings/courier_settings.dart';
+import 'Pages/Courier Settings/new_deliveries.dart';
+import 'Pages/Payout Settings/completed_payouts.dart';
+import 'Pages/Payout Settings/payout_request.dart';
+import 'Pages/Profile Settings/app_settings.dart';
+import 'Pages/Profile Settings/edit_profile.dart';
+import 'Pages/Profile Settings/profile.dart';
+import 'Pages/Users Settings/deliveryboys_page.dart';
+import 'Pages/Users Settings/vendors_page.dart';
+import 'Pages/Users Settings/user_settings.dart';
+import 'Pages/Users Settings/users_page.dart';
+//import 'Pages/cities.dart';
 
-void main() {
-  runApp(const MyApp());
+
+int? initScreen;
+bool? seen;
+String? newPassword;
+String? adminUsername;
+String? adminImage;
+num? commission;
+
+updateAdmin() {
+  FirebaseFirestore.instance
+      .collection('Admin')
+      .doc('Admin')
+      .get()
+      .then((value) {
+    if (!value.exists) {
+      defaultUpdate();
+    }
+  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+defaultUpdate() {
+  if (newPassword == null && adminImage == null && adminUsername == null) {
+    FirebaseFirestore.instance.collection('Admin').doc('Admin').set({
+      'password': '123456',
+      'ProfilePic': 'https://img.icons8.com/officel/2x/person-male.png',
+      'username': 'admin123@gmail.com',
+      'commission': 0,
+      'ParcelID': 0
+    });
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+    FirebaseFirestore.instance
+        .collection('Product Slide')
+        .doc('Product Slide')
+        .set({
+      'Product Slide 1': '',
+      'Product Slide 2': '',
+      'Product Slide 3': '',
+      'Product Slide 4': '',
+      'Product Slide 5': ''
     });
   }
+}
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+          options: const FirebaseOptions(
+            apiKey: "AIzaSyDqQFBmItGZNv0gIRKR2W1ZSOE9qBNel2Q",
+            authDomain: "multivendor-c4d09.firebaseapp.com",
+            projectId: "multivendor-c4d09",
+            storageBucket: "multivendor-c4d09.appspot.com",
+            messagingSenderId: "926136734127",
+            appId: "1:926136734127:web:2330aa90dc6faaf9715f5a"
+    ));
+  var all = await SharedPreferences.getInstance();
+  all.clear();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  updateAdmin();
+  await prefs.setBool("seen", true);
+  seen = prefs.getBool("seen");
+
+  await prefs.clear();
+
+  seen = prefs.getBool("seen");
+
+  await EasyLocalization.ensureInitialized();
+  EasyLocalization.logger.enableBuildModes = [];
+
+  runApp(ModularApp(
+    module: AppModule(),
+    child: EasyLocalization(
+        supportedLocales: const [
+          Locale('es', 'ES'),
+          Locale('en', 'US'),
+          Locale('pt', 'PT')
+        ],
+        path: 'assets/languagesFile',
+        fallbackLocale: const Locale('en', 'US'),
+        child: const MyApp()),
+  ));
+}
+
+class AppModule extends Module {
+  @override
+  List<Bind> get binds => [];
 
   @override
+  List<ModularRoute> get routes => [
+        ChildRoute('/login', child: (context, args) => const Login()),
+        ChildRoute('/',
+            child: (context, args) => const HomePageMain(),
+            children: [
+              ChildRoute('/home', child: (context, args) => const HomePage()),
+              //    ChildRoute('/brands', child: (context, args) => const Brands()),
+              ChildRoute('/categories',
+                  child: (context, args) => const Categories()),
+              ChildRoute('/sub-categories',
+                  child: (context, args) => const SubCategories()),
+              // ChildRoute('/sub-categories-collections',
+              //     child: (context, args) => const SubCategoriesCollections()),
+              ChildRoute('/completed-deliveries',
+                  child: (context, args) => const CompletedDeliveries()),
+              ChildRoute('/new-deliveries',
+                  child: (context, args) => const NewDeliveries()),
+              ChildRoute('/completed-payouts',
+                  child: (context, args) => const CompletedPayout()),
+              ChildRoute('/coupon',
+                  child: (context, args) => const CouponPage()),
+              ChildRoute('/payout-requests',
+                  child: (context, args) => const PayoutRequest()),
+              ChildRoute('/settings',
+                  child: (context, args) => const AppSettings()),
+              ChildRoute('/edit-profile',
+                  child: (context, args) => const EditProfile()),
+              ChildRoute('/profile', child: (context, args) => const Profile()),
+              ChildRoute('/delivery-boys',
+                  child: (context, args) => const ApprovedDeliveryboys()),
+              ChildRoute('/users', child: (context, args) => const Users()),
+              ChildRoute('/vendors',
+                  child: (context, args) => const ApprovedVendors()),
+              // ChildRoute('/cities', child: (context, args) => const Cities()),
+              ChildRoute('/feeds', child: (context, args) => const Feeds()),
+              ChildRoute('/markets', child: (context, args) => const Markets()),
+              ChildRoute('/notifications',
+                  child: (context, args) => const Notifications()),
+              ChildRoute('/orders', child: (context, args) => const Orders()),
+              ChildRoute('/products',
+                  child: (context, args) => const Products()),
+              ChildRoute('/reviews', child: (context, args) => const Reviews()),
+              ChildRoute('/users-settings',
+                  child: (context, args) => const UsersSettings()),
+              ChildRoute('/courier-settings',
+                  child: (context, args) => const CourierSettings()),
+            ]),
+      ];
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    Modular.setInitialRoute('/login');
+    return MaterialApp.router(
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
+      debugShowCheckedModeBanner: false,
+      title: 'Olivette Admin',
+      theme: ThemeData(
+        primaryColor: Colors.blue,
+        textTheme: GoogleFonts.robotoCondensedTextTheme(
+          Theme.of(context).textTheme,
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
     );
   }
 }

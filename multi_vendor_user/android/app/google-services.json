@@ -1,0 +1,155 @@
+{
+  "project_info": {
+    "project_number": "140299233623",
+    "project_id": "olivette-multi-vendor",
+    "storage_bucket": "olivette-multi-vendor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140299233623:android:4e36edc959c662fdbe3612",
+        "android_client_info": {
+          "package_name": "com.example.multivendorappnew2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSgrC3mUB9mLhupD6g8oFHnf3ldsyE7To"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140299233623:android:1ff638d4a02bd8d3be3612",
+        "android_client_info": {
+          "package_name": "com.example.multivendorappnew22"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSgrC3mUB9mLhupD6g8oFHnf3ldsyE7To"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140299233623:android:81d8f98f25e3c637be3612",
+        "android_client_info": {
+          "package_name": "com.example.multivendordrivernew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSgrC3mUB9mLhupD6g8oFHnf3ldsyE7To"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140299233623:android:a7e81ea77856e476be3612",
+        "android_client_info": {
+          "package_name": "com.example.multivendorvendornew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSgrC3mUB9mLhupD6g8oFHnf3ldsyE7To"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140299233623:android:85f7f01f5c6c6532be3612",
+        "android_client_info": {
+          "package_name": "com.olivette.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSgrC3mUB9mLhupD6g8oFHnf3ldsyE7To"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "140299233623-r6htsb5qu6vvv9jtfn9dp4r2qpn9uk59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
