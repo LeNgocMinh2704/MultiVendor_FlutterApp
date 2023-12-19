@@ -1,4 +1,4 @@
-package com.project.multivendor
+package com.multivendor_client
 
 import io.flutter.embedding.android.FlutterActivity
 
