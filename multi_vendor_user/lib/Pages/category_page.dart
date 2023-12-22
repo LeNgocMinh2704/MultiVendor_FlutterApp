@@ -105,56 +105,67 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                     ),
                                     SizedBox(
                                       width: double.infinity,
-                                      child: marketModel.category.length >= 10
-                                          ? SizedBox(
-                                              height: 12,
-                                              child: Marquee(
-                                                text: marketModel.category,
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize:
-                                                        MediaQuery.of(context)
+                                      child: Center(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 2, right: 2),
+                                          child: marketModel.category.length >=
+                                                  10
+                                              ? SizedBox(
+                                                  height: 12,
+                                                  child: Marquee(
+                                                    text: marketModel.category,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: MediaQuery.of(
+                                                                        context)
                                                                     .size
                                                                     .width >=
                                                                 1100
                                                             ? 15
                                                             : 12),
-                                                scrollAxis: Axis.horizontal,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                blankSpace: 20,
-                                                velocity: 100,
-                                                pauseAfterRound:
-                                                    const Duration(seconds: 1),
-                                                showFadingOnlyWhenScrolling:
-                                                    true,
-                                                fadingEdgeStartFraction: 0.1,
-                                                fadingEdgeEndFraction: 0.1,
-                                                numberOfRounds: 3,
-                                                startPadding: 10,
-                                                accelerationDuration:
-                                                    const Duration(seconds: 1),
-                                                accelerationCurve:
-                                                    Curves.linear,
-                                                decelerationDuration:
-                                                    const Duration(
-                                                        milliseconds: 500),
-                                                decelerationCurve:
-                                                    Curves.easeOut,
-                                              ),
-                                            )
-                                          : Center(
-                                        child: Text(
-                                          marketModel.category,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .width >=
-                                                      1100
-                                                  ? 15
-                                                  : 12),
+                                                    scrollAxis: Axis.horizontal,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    blankSpace: 20,
+                                                    velocity: 100,
+                                                    pauseAfterRound:
+                                                        const Duration(
+                                                            seconds: 1),
+                                                    showFadingOnlyWhenScrolling:
+                                                        true,
+                                                    fadingEdgeStartFraction:
+                                                        0.1,
+                                                    fadingEdgeEndFraction: 0.1,
+                                                    numberOfRounds: 3,
+                                                    startPadding: 10,
+                                                    accelerationDuration:
+                                                        const Duration(
+                                                            seconds: 1),
+                                                    accelerationCurve:
+                                                        Curves.linear,
+                                                    decelerationDuration:
+                                                        const Duration(
+                                                            milliseconds: 500),
+                                                    decelerationCurve:
+                                                        Curves.easeOut,
+                                                  ),
+                                                )
+                                              : Text(
+                                                  marketModel.category,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize:
+                                                          MediaQuery.of(context)
+                                                                      .size
+                                                                      .width >=
+                                                                  1100
+                                                              ? 15
+                                                              : 12),
+                                                ),
                                         ),
                                       ),
                                     )

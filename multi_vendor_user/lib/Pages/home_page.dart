@@ -1,29 +1,40 @@
 import 'dart:async';
-
+import 'dart:math';
 import 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart' hide Badge;
+import 'package:flutter/services.dart';
+// import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+
 import 'package:flutter_close_app/flutter_close_app.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:list_tile_switch/list_tile_switch.dart';
+import 'package:user_1/Model/formatter.dart';
+import 'package:user_1/Model/products.dart';
+import 'package:user_1/Model/rating1.dart';
+import 'package:user_1/Pages/product_detail.dart';
+import 'package:user_1/Providers/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../Providers/auth.dart';
-import '../../../Theme/theme.dart';
-import '../../../Theme/theme_data.dart';
-import '../../../Widgets/add_delivery_address.dart';
-import '../../../Widgets/categories_intro.dart';
-import '../../../Widgets/drawer_clippath.dart';
-import '../../../Widgets/markets_intro.dart';
+import '../Theme/theme.dart';
+import '../Theme/theme_data.dart';
+import '../Widgets/add_delivery_address.dart';
+import '../Widgets/categories_intro.dart';
+import '../Widgets/drawer_clippath.dart';
+import '../Widgets/markets_intro.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:badges/badges.dart';
 import 'package:geocoding/geocoding.dart';
-import '../../../Widgets/search.dart';
-import '../../../Widgets/search_products.dart';
+import '../Widgets/search.dart';
+import '../Widgets/search_products.dart';
+import '../Widgets/slider.dart';
+import 'package:list_tile_switch/list_tile_switch.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,6 +60,247 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   double addressLat = 0;
   double addressLong = 0;
   String search = 'Search on'.tr();
+  // late List<Rating1> ratingList;
+  late Future<List<Rating1>> ratingsFuture;
+  late List<String> productIds;
+  Random random = Random();
+  late int randomNumber;
+
+  Future<List<Rating1>> fetchProductRatings() async {
+    // Lấy tham chiếu đến collection "Products"
+    CollectionReference productsCollection =
+        FirebaseFirestore.instance.collection('Products');
+
+    // Lấy danh sách tất cả các sản phẩm
+    QuerySnapshot productsSnapshot = await productsCollection.get();
+    List<QueryDocumentSnapshot> productsDocs = productsSnapshot.docs;
+
+    List<Rating1> ratings = [];
+
+    // Duyệt qua từng sản phẩm
+    for (QueryDocumentSnapshot productDoc in productsDocs) {
+      // Lấy tham chiếu đến collection "Ratings" của sản phẩm hiện tại
+      CollectionReference ratingsCollection =
+          productDoc.reference.collection('Ratings');
+
+      // Lấy danh sách tất cả các document trong collection "Ratings"
+      QuerySnapshot ratingsSnapshot = await ratingsCollection.get();
+      List<QueryDocumentSnapshot> ratingsDocs = ratingsSnapshot.docs;
+
+      // Duyệt qua từng document trong collection "Ratings"
+      for (QueryDocumentSnapshot ratingDoc in ratingsDocs) {
+        // Thực hiện các thao tác với document trong collection "Ratings" ở đây
+        // Ví dụ: lấy dữ liệu, tạo đối tượng Rating và thêm vào danh sách ratings
+        Map<String, dynamic> ratingData =
+            ratingDoc.data() as Map<String, dynamic>;
+        Rating1 rating = Rating1(
+            userId: ratingData['userId'],
+            productId: ratingData['productId'],
+            rating: ratingData['rating'],
+            timeCreated: ratingData["timeCreated"]);
+        ratings.add(rating);
+      }
+    }
+
+    return ratings;
+  }
+
+  List<String> getUnratedProductIds(String userId, List<Rating1> ratings) {
+    Set<String> ratedProductIds = ratings
+        .where((rating) => rating.userId == userId)
+        .map((rating) => rating.productId!)
+        .toSet();
+
+    List<String> allProductIds =
+        ratings.map((rating) => rating.productId!).toList();
+
+    return allProductIds
+        .where((productId) => !ratedProductIds.contains(productId))
+        .toList();
+  }
+
+  // List getSlopeOneRecommendations(String userId, List<Rating1> ratings) {
+  //   Map<String, Map<String, double>> evalMat = {};
+  //   Map<String, Map<String, int>> evalCount = {};
+
+  //   for (Rating1 rating in ratings) {
+  //     String user = rating.userId!;
+  //     String product = rating.productId!;
+  //     double score = rating.rating!;
+
+  //     if (!evalMat.containsKey(user)) {
+  //       evalMat[user] = {};
+  //       evalCount[user] = {};
+  //     }
+
+  //     if (!evalMat[user]!.containsKey(product)) {
+  //       evalMat[user]![product] = 0;
+  //       evalCount[user]![product] = 0;
+  //     }
+
+  //     evalMat[user]![product] = score + evalMat[user]![product]!;
+  //     evalCount[user]![product] = evalCount[user]![product]! + 1;
+  //   }
+
+  //   Map<String, double> recommendations = {};
+
+  //   String user = userId;
+  //   if (evalMat.containsKey(user)) {
+  //     Map<String, double> userRatings = evalMat[user]!;
+  //     Map<String, int> userCount = evalCount[user]!;
+
+  //     for (String productA in userRatings.keys) {
+  //       for (String productB in evalMat.keys) {
+  //         if (productA != productB &&
+  //             evalMat[productB]!.containsKey(productA)) {
+  //           double dev = (evalMat[productB]![productA]! -
+  //                   evalMat[productB]![productA]! / userCount[productA]!) /
+  //               userCount[productA]!;
+
+  //           if (!userRatings.containsKey(productB)) {
+  //             if (!recommendations.containsKey(productB)) {
+  //               recommendations[productB] = 0;
+  //             }
+  //             recommendations[productB] = recommendations[productB]! +
+  //                 (dev + userRatings[productA]!) * userCount[productA]!;
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   List<String> recommendedProducts = (recommendations.entries.toList()
+  //         ..sort((a, b) => b.value.compareTo(a.value)))
+  //       .cast<String>();
+
+  //   return recommendedProducts.map((entry) => entry).toList();
+  // }
+
+  List<String> getSlopeOneRecommendations(
+      String userId, List<Rating1> ratings) {
+    Map<String, Map<String, double>> evalMat = {};
+    Map<String, Map<String, int>> evalCount = {};
+
+    for (Rating1 rating in ratings) {
+      // Lặp qua danh sách các đánh giá
+      String user = rating.userId!;
+      String product = rating.productId!;
+      double score = rating.rating!;
+
+      // Khởi tạo ma trận đánh giá và ma trận đếm nếu chưa tồn tại cho người dùng
+      if (!evalMat.containsKey(user)) {
+        evalMat[user] = {};
+        evalCount[user] = {};
+      }
+
+      // Khởi tạo đánh giá và số lần đếm nếu chưa tồn tại cho sản phẩm của người dùng
+      if (!evalMat[user]!.containsKey(product)) {
+        evalMat[user]![product] = 0;
+        evalCount[user]![product] = 0;
+      }
+
+      // Tính tổng điểm đánh giá và số lần đếm cho sản phẩm của người dùng
+      evalMat[user]![product] = score + evalMat[user]![product]!;
+      evalCount[user]![product] = evalCount[user]![product]! + 1;
+    }
+
+    Map<String, double> recommendations = {};
+
+    String user = userId;
+    // Kiểm tra nếu có đánh giá của người dùng trong ma trận đánh giá
+    if (evalMat.containsKey(user)) {
+      Map<String, double> userRatings = evalMat[user]!;
+      Map<String, int> userCount = evalCount[user]!;
+
+      // Lặp qua tất cả các sản phẩm đã được người dùng đánh giá
+      for (String productA in userRatings.keys) {
+        // Lặp qua tất cả các sản phẩm trong ma trận đánh giá
+        for (String productB in evalMat.keys) {
+          // Kiểm tra nếu sản phẩm A và sản phẩm B khác nhau và sản phẩm B đã được đánh giá bởi người dùng khác
+          if (productA != productB &&
+              evalMat[productB]!.containsKey(productA)) {
+            // Tính độ chênh lệch (deviation)
+            double dev = (evalMat[productB]![productA]! -
+                    evalMat[productB]![productA]! / userCount[productA]!) /
+                userCount[productA]!;
+
+            // Kiểm tra nếu sản phẩm B chưa được người dùng đánh giá, thì cập nhật đề xuất cho sản phẩm B
+            if (!userRatings.containsKey(productB)) {
+              if (!recommendations.containsKey(productB)) {
+                recommendations[productB] = 0;
+              }
+              recommendations[productB] = recommendations[productB]! +
+                  (dev + userRatings[productA]!) * userCount[productA]!;
+            }
+          }
+        }
+      }
+    }
+
+    // Sắp xếp các sản phẩm đề xuất dựa trên giá trị đánh giá
+    List<String> recommendedProducts = (recommendations.entries.toList()
+          ..sort((a, b) => b.value.compareTo(a.value)))
+        .cast<String>();
+
+    // Trả về danh sách sản phẩm đề xuất
+    return recommendedProducts.map((entry) => entry).toList();
+  }
+
+  // Future<List<ProductsModel>> getMyProducts() {
+  //   return FirebaseFirestore.instance
+  //       .collection('Products')
+  //       .get()
+  //       .then((snapshot) {
+  //     return snapshot.docs
+  //         .map((doc) => ProductsModel.fromMap(doc.data(), doc.id))
+  //         .toList();
+  //   });
+  // }
+
+  Future<List<ProductsModel>> getMyProducts() {
+    Random random = Random(randomNumber); //
+    return FirebaseFirestore.instance
+        .collection('Products')
+        .get()
+        .then((snapshot) {
+      List<ProductsModel> productList = snapshot.docs
+          .map((doc) => ProductsModel.fromMap(doc.data(), doc.id))
+          .toList();
+
+      List<ProductsModel> shuffledList = List.from(productList);
+      shuffledList.shuffle(random);
+
+      return shuffledList.take(4).toList();
+    });
+  }
+
+  final ScrollController _scrollController = ScrollController();
+
+  final FocusNode _focusNode = FocusNode();
+  void _handleKeyEvent(RawKeyEvent event) {
+    var offset = _scrollController.offset;
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      setState(() {
+        if (kReleaseMode) {
+          _scrollController.animateTo(offset - 200,
+              duration: const Duration(milliseconds: 30), curve: Curves.ease);
+        } else {
+          _scrollController.animateTo(offset - 200,
+              duration: const Duration(milliseconds: 30), curve: Curves.ease);
+        }
+      });
+    } else if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      setState(() {
+        if (kReleaseMode) {
+          _scrollController.animateTo(offset + 200,
+              duration: const Duration(milliseconds: 30), curve: Curves.ease);
+        } else {
+          _scrollController.animateTo(offset + 200,
+              duration: const Duration(milliseconds: 30), curve: Curves.ease);
+        }
+      });
+    }
+  }
 
   Future<void> _getUserDoc() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
@@ -87,10 +339,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   Timer? _timer;
   @override
   void initState() {
+    randomNumber = random.nextInt(100) + 1;
     getCourierStatus();
     _getUserDetails();
     _getUserDeliveryStatus();
     getLocation();
+    ratingsFuture = fetchProductRatings();
     getReferralStatus();
     EasyLoading.addStatusCallback((status) {
       if (status == EasyLoadingStatus.dismiss) {
@@ -105,7 +359,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void dispose() {
     sc.dispose();
-
+    _focusNode.dispose();
+    _scrollController.dispose(); // dispose the controller
     super.dispose();
   }
 
@@ -294,11 +549,14 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             IconButton(
-                                color: Colors.black,
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                icon: const Icon(Icons.arrow_back)),
+                                icon: Icon(Icons.arrow_back,
+                                    color:
+                                        themeMode == true || themeMode == null
+                                            ? Colors.black
+                                            : Colors.white)),
                             // IconButton(
                             //     color: Colors.black,
                             //     onPressed: () {},
@@ -311,11 +569,21 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 25,
                                 )).tr()
-                            : Text('Hello, $fullname',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 25,
-                                ))
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text('Hello,',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25,
+                                      )).tr(),
+                                  Text(' $fullname',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 25,
+                                      )),
+                                ],
+                              )
                       ],
                     ),
                   ),
@@ -532,7 +800,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                       },
                       leading: const Icon(Icons.logout),
                       title: const Text(
-                        "Log out",
+                        "Log Out",
                         style: TextStyle(
                           fontSize: 18,
                         ),
@@ -553,19 +821,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ]),
           ),
         ),
-        backgroundColor: themeMode == true || themeMode == null
-            ? Colors.blue
-            : const Color(0xFF362F2F),
-        body: FlutterCloseAppPage(
-            interval: 2,
-            condition: true,
-            onCloseFailed: () {
-              // The interval is more than 2 seconds, or the return key is pressed for the first time
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                content: Text('Press again to exit'),
-              ));
-            },
-            child: _buildScaffoldBody(openDrawerHome)),
+        //  backgroundColor: Colors.blue,
+        body: Column(
+          children: [
+            Flexible(
+              child: FlutterCloseAppPage(
+                  interval: 2,
+                  condition: true,
+                  onCloseFailed: () {
+                    // The interval is more than 2 seconds, or the return key is pressed for the first time
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Press again to exit'),
+                    ));
+                  },
+                  child: _buildScaffoldBody(openDrawerHome)),
+            ),
+            Container(),
+          ],
+        ),
       ),
     );
   }
@@ -579,13 +852,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       headerSliverBuilder: (BuildContext c, bool f) {
         return <Widget>[
           SliverAppBar(
-              backgroundColor: themeMode == true || themeMode == null
-                  ? Colors.blue
-                  : const Color(0xFF362F2F),
+              backgroundColor: Theme.of(context).colorScheme.background,
               automaticallyImplyLeading: false,
               pinned: true,
               centerTitle: true,
-              expandedHeight: 420,
+              expandedHeight: 280,
               leading: InkWell(
                 onTap: () {
                   openDrawerHome();
@@ -694,11 +965,16 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                           });
                     },
                     decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.search),
+                      prefixIcon: const Icon(
+                        Icons.search,
+                        color: Colors.black,
+                      ),
                       filled: true,
-                      fillColor: Colors.white,
+                      fillColor: const Color.fromARGB(255, 236, 230, 230),
                       hintText: '$search Olivette',
-                      hintStyle: const TextStyle(color: Colors.black),
+                      hintStyle: const TextStyle(
+                        color: Colors.black,
+                      ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.white),
                         borderRadius: BorderRadius.circular(15),
@@ -714,7 +990,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   physics: const NeverScrollableScrollPhysics(),
                   child: Column(
                     children: [
-                      const SizedBox(height: 110),
+                      const SizedBox(height: 100),
                       TextButton(
                         onPressed: () {
                           if (userRef == null) {
@@ -727,55 +1003,19 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                         child: Text(
                           userRef == null ? '$address ▼' : '$deliveryAddress ▼',
                           style: TextStyle(
-                              color: themeMode == true || themeMode == null
-                                  ? Colors.black
-                                  : Colors.white,
-                              fontSize: 14,
+                              color: Theme.of(context).indicatorColor,
+                              fontSize: 12,
                               fontWeight: FontWeight.bold),
                           textAlign: TextAlign.center,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              'Choose a category',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ).tr(),
-                            TextButton(
-                                child: const Text(
-                                  'View All',
-                                  style: TextStyle(
-                                      color: Colors.orange,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                  textAlign: TextAlign.center,
-                                ).tr(),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/categories');
-                                })
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: MediaQuery.of(context).size.width >= 1100
-                            ? const EdgeInsets.only(left: 200, right: 200)
-                            : const EdgeInsets.only(left: 8, right: 8),
+                      const SizedBox(height: 10),
+                      const Padding(
+                        padding: EdgeInsets.only(left: 8, right: 8),
                         child: SizedBox(
-                            height: 250,
-                            width: double.infinity,
-                            child: Padding(
-                                padding:
-                                    MediaQuery.of(context).size.width >= 1100
-                                        ? const EdgeInsets.only(
-                                            left: 200, right: 200)
-                                        : const EdgeInsets.all(0),
-                                child: const CategoriesIntro())),
+                            height: 150, child: SliderWidget(category: '')),
                       ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -786,57 +1026,442 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       pinnedHeaderSliverHeightBuilder: () {
         return pinnedHeaderHeight;
       },
-      body: ClipPath(
-        clipper: OvalTopBorderClipper(),
-        child: Container(
-            color: Theme.of(context).primaryColor,
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(
-                    height: 30,
+      body: Container(
+          color: Theme.of(context).colorScheme.background,
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Choose a category',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ).tr(),
+                      TextButton(
+                          child: const Text(
+                            'View All',
+                            style: TextStyle(
+                                color: Colors.orange,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ).tr(),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/categories');
+                          })
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          'Available Markets',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                          textAlign: TextAlign.center,
-                        ).tr(),
-                        TextButton(
-                            child: const Text(
-                              'View All',
-                              style: TextStyle(
-                                  color: Colors.orange,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.center,
-                            ).tr(),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/markets');
-                            })
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                      height: MediaQuery.of(context).size.height / 1,
+                ),
+                Padding(
+                  padding: MediaQuery.of(context).size.width >= 1100
+                      ? const EdgeInsets.only(left: 200, right: 200)
+                      : const EdgeInsets.only(left: 8, right: 8, bottom: 20),
+                  child: SizedBox(
+                      height: 260,
                       width: double.infinity,
                       child: Padding(
                           padding: MediaQuery.of(context).size.width >= 1100
                               ? const EdgeInsets.only(left: 200, right: 200)
-                              : const EdgeInsets.all(0),
-                          child: const MarketsIntro())),
-                  const SizedBox(
-                    height: 100,
-                  )
-                ],
-              ),
-            )),
-      ),
+                              : const EdgeInsets.only(bottom: 20),
+                          child: const CategoriesIntro())),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Available Markets',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ).tr(),
+                      TextButton(
+                          child: const Text(
+                            'View All',
+                            style: TextStyle(
+                                color: Colors.orange,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ).tr(),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/markets');
+                          })
+                    ],
+                  ),
+                ),
+                SizedBox(
+                    height: MediaQuery.of(context).size.height / 2.4,
+                    width: double.infinity,
+                    child: Padding(
+                        padding: MediaQuery.of(context).size.width >= 1100
+                            ? const EdgeInsets.only(left: 200, right: 200)
+                            : const EdgeInsets.all(0),
+                        child: const MarketsIntro())),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  alignment: Alignment.centerLeft,
+                  child: const Text(
+                    'Suggest Product',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: MediaQuery.of(context).size.width >= 1100
+                      ? const EdgeInsets.only(left: 200, right: 200)
+                      : const EdgeInsets.only(left: 8, right: 8),
+                  child: FutureBuilder<List<ProductsModel>>(
+                      future: getMyProducts(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (snapshot.hasData) {
+                          List<ProductsModel> productList = snapshot.data!;
+
+                          return RawKeyboardListener(
+                            autofocus: true,
+                            focusNode: _focusNode,
+                            onKey: _handleKeyEvent,
+                            child: GridView.builder(
+                              controller: _scrollController,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                mainAxisSpacing: MediaQuery.of(context)
+                                            .size
+                                            .width >=
+                                        1100
+                                    ? 10
+                                    : MediaQuery.of(context).size.width > 600 &&
+                                            MediaQuery.of(context).size.width <
+                                                1200
+                                        ? 5
+                                        : 0,
+                                crossAxisSpacing: MediaQuery.of(context)
+                                            .size
+                                            .width >=
+                                        1100
+                                    ? 10
+                                    : MediaQuery.of(context).size.width > 600 &&
+                                            MediaQuery.of(context).size.width <
+                                                1200
+                                        ? 5
+                                        : 0,
+                                crossAxisCount: MediaQuery.of(context)
+                                            .size
+                                            .width >=
+                                        1100
+                                    ? 4
+                                    : MediaQuery.of(context).size.width > 600 &&
+                                            MediaQuery.of(context).size.width <
+                                                1200
+                                        ? 3
+                                        : 2,
+                                childAspectRatio: MediaQuery.of(context)
+                                            .size
+                                            .width >=
+                                        1100
+                                    ? 1
+                                    : MediaQuery.of(context).size.width > 600 &&
+                                            MediaQuery.of(context).size.width <
+                                                1200
+                                        ? 0.9
+                                        : 0.8,
+                              ),
+                              itemCount: productList.length,
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder:
+                                  (BuildContext buildContext, int index) {
+                                ProductsModel productModel = productList[index];
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: InkWell(
+                                    onTap: () {
+                                      if (MediaQuery.of(context).size.width >=
+                                          1100) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              content: SizedBox(
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    1.5,
+                                                child: ProductDetailsPage(
+                                                  currency: currencySymbol,
+                                                  marketID:
+                                                      productModel.marketID,
+                                                  productsModel: productModel,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        showMaterialModalBottomSheet(
+                                          bounce: true,
+                                          expand: true,
+                                          context: context,
+                                          backgroundColor: Colors.transparent,
+                                          builder: (context) => Padding(
+                                            padding: MediaQuery.of(context)
+                                                        .size
+                                                        .width >=
+                                                    1100
+                                                ? const EdgeInsets.only(
+                                                    left: 200, right: 200)
+                                                : const EdgeInsets.only(
+                                                    left: 0, right: 0),
+                                            child: ProductDetailsPage(
+                                              currency: currencySymbol,
+                                              marketID: productModel.marketID,
+                                              productsModel: productModel,
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: Card(
+                                      elevation: 0,
+                                      child: Stack(
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.stretch,
+                                            children: [
+                                              Image.network(
+                                                productModel.image1,
+                                                height: MediaQuery.of(context)
+                                                            .size
+                                                            .width >=
+                                                        1100
+                                                    ? 120
+                                                    : MediaQuery.of(context)
+                                                                    .size
+                                                                    .width >
+                                                                600 &&
+                                                            MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width <
+                                                                1200
+                                                        ? 120
+                                                        : 120,
+                                                width: double.infinity,
+                                                fit: BoxFit.cover,
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Flexible(
+                                                          flex: 5,
+                                                          child: Text(
+                                                            productModel.name,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                              fontSize: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width >=
+                                                                      1100
+                                                                  ? 13
+                                                                  : 10,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        if (productModel
+                                                                    .totalNumberOfUserRating !=
+                                                                0 &&
+                                                            productModel
+                                                                    .totalRating !=
+                                                                0)
+                                                          Flexible(
+                                                            flex: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width >=
+                                                                    1100
+                                                                ? 3
+                                                                : MediaQuery.of(context).size.width >
+                                                                            600 &&
+                                                                        MediaQuery.of(context).size.width <
+                                                                            1200
+                                                                    ? 3
+                                                                    : 4,
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                RatingBarIndicator(
+                                                                  rating: (productModel
+                                                                              .totalRating /
+                                                                          productModel
+                                                                              .totalNumberOfUserRating)
+                                                                      .roundToDouble(),
+                                                                  itemBuilder: (context,
+                                                                          index) =>
+                                                                      const Icon(
+                                                                    Icons.star,
+                                                                    color: Colors
+                                                                        .orange,
+                                                                  ),
+                                                                  itemCount: 5,
+                                                                  itemSize: 6,
+                                                                  direction: Axis
+                                                                      .horizontal,
+                                                                ),
+                                                                Text(
+                                                                  ' ${(productModel.totalRating / productModel.totalNumberOfUserRating).roundToDouble()}',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize: MediaQuery.of(context).size.width >=
+                                                                            1100
+                                                                        ? 10
+                                                                        : MediaQuery.of(context).size.width > 600 &&
+                                                                                MediaQuery.of(context).size.width < 1200
+                                                                            ? 10
+                                                                            : 8,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        Flexible(
+                                                          flex: 5,
+                                                          child: Text(
+                                                            productModel
+                                                                .description,
+                                                            maxLines: 1,
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis,
+                                                            style: TextStyle(
+                                                              fontSize: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .width >=
+                                                                      1100
+                                                                  ? 10
+                                                                  : 8,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const Flexible(
+                                                          flex: 1,
+                                                          child: Text(''),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          '$currencySymbol${Formatter().converter(productModel.unitPrice1.toDouble())}',
+                                                          style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width >=
+                                                                    1100
+                                                                ? 13
+                                                                : 10,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                            width: 20),
+                                                        Text(
+                                                          '$currencySymbol${Formatter().converter(productModel.unitOldPrice1.toDouble())}',
+                                                          style: TextStyle(
+                                                            fontSize: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width >=
+                                                                    1100
+                                                                ? 13
+                                                                : 10,
+                                                            decoration:
+                                                                TextDecoration
+                                                                    .lineThrough,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 10, right: 10),
+                                              child: IconButton(
+                                                icon: const Icon(
+                                                    Icons.favorite_border),
+                                                onPressed: () {
+                                                  // Add code to handle favorite button press
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          );
+                        }
+                        return const Center(child: CircularProgressIndicator());
+                      }),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
+          )),
     );
   }
 }
