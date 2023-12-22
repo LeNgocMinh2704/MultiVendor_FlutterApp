@@ -73,7 +73,7 @@ class _CategoriessDataState extends State<CategoriessData> {
                         label: const Text('Index').tr(),
                       ),
                       DataColumn(
-                        label: const Text('Image').tr(),
+                        label: const Text('CategoryImage').tr(),
                       ),
                       DataColumn(
                         label: const Text('Name').tr(),
@@ -111,9 +111,23 @@ class VendorDataSource extends DataTableSource {
     final CategoriesModel result = vendor[index];
     return DataRow.byIndex(index: index, cells: <DataCell>[
       DataCell(Text('${index + 1}')),
-      DataCell(result.image == ''
-          ? Container()
-          : Image.network(result.image, width: 50, height: 50)),
+      DataCell(
+        result.image == ''
+            ? Container()
+            : Image.network(
+                result.image,
+                width: 50,
+                height: 50,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 50,
+                    height: 50,
+                    color: Colors.grey, // Placeholder color
+                    child: const Icon(Icons.error), // Placeholder icon
+                  );
+                },
+              ),
+      ),
       DataCell(Text(result.category)),
       DataCell(Row(
         children: [
