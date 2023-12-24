@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.multivendor_client">
+    package="com.multivendor.client">
     <application
         android:label="Olivette Vendor"
         android:name="${applicationName}"
