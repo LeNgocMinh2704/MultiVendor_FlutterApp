@@ -205,7 +205,7 @@ class _AddMarketState extends State<AddMarket> {
     if (address == 'Address') {
       //print('Address is empty');
     } else {
-      Coordinates coordinates =
+      Coordinates? coordinates =
           await geoCode.forwardGeocoding(address: address);
       setState(() {
         addressLat = coordinates.latitude!;

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.multivendorappnew2">
+    package="com.multivendor.user">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -18,7 +18,7 @@
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDcozBlxx-_AEGPqQ06yaG2XpqPDfR79bI" />
+            android:value="AIzaSyBKu46Tyr4BQiLjrM6Y5zVvpNtxA8tt1EY" />
 
         <activity
             android:name=".MainActivity"

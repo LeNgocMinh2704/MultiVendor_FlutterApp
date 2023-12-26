@@ -714,7 +714,8 @@ class _MarketsByCategoriesPageState extends State<MarketsByCategoriesPage>
                                                         child: const Text(
                                                                 'Closed',
                                                                 style: TextStyle(
-                                                                  fontSize: 18,
+                                                                    fontSize:
+                                                                        18,
                                                                     color: Colors
                                                                         .white,
                                                                     fontWeight:

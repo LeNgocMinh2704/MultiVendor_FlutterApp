@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
       onError: onError,
       mode: _mode,
       language: 'en',
-      components: [Component(Component.country, 'ng')],
+      components: [Component(Component.country, 'vn')],
     ).then((value) async {
       await displayPrediction(value, ScaffoldMessenger.of(context), context);
     });
@@ -129,7 +129,7 @@ class CustomSearchScaffold extends PlacesAutocompleteWidget {
           apiKey: kGoogleApiKey,
           sessionToken: Uuid().generateV4(),
           language: 'en',
-          components: [Component(Component.country, 'ng')],
+          components: [Component(Component.country, 'vn')],
         );
 
   @override

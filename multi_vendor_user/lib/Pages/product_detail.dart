@@ -436,9 +436,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       child: Row(
                         children: [
                           RatingBarIndicator(
-                            rating: totalUser == 0
-                                ? 0
-                                : getRatingAndReview().toDouble(),
+                            rating: totalUser == 0 ? 0 : getRatingAndReview(),
                             itemBuilder: (context, index) => const Icon(
                               Icons.star,
                               color: Colors.orange,

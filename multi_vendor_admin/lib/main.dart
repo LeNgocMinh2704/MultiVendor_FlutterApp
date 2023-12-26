@@ -1,14 +1,4 @@
-import 'Pages/coupon_page.dart';
-import 'Pages/feeds.dart';
-import 'Pages/home.dart';
-import 'Pages/Login/login.dart';
-import 'Pages/markets.dart';
-import 'Pages/notifications.dart';
-import 'Pages/orders.dart';
-import 'Pages/products.dart';
-import 'Pages/reviews.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +23,15 @@ import 'Pages/Users Settings/vendors_page.dart';
 import 'Pages/Users Settings/user_settings.dart';
 import 'Pages/Users Settings/users_page.dart';
 //import 'Pages/cities.dart';
-
+import 'Pages/coupon_page.dart';
+import 'Pages/feeds.dart';
+import 'Pages/home.dart';
+import 'Pages/Login/login.dart';
+import 'Pages/markets.dart';
+import 'Pages/notifications.dart';
+import 'Pages/orders.dart';
+import 'Pages/products.dart';
+import 'Pages/reviews.dart';
 
 int? initScreen;
 bool? seen;
@@ -80,14 +78,13 @@ defaultUpdate() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-          options: const FirebaseOptions(
-            apiKey: "AIzaSyDqQFBmItGZNv0gIRKR2W1ZSOE9qBNel2Q",
-            authDomain: "multivendor-c4d09.firebaseapp.com",
-            projectId: "multivendor-c4d09",
-            storageBucket: "multivendor-c4d09.appspot.com",
-            messagingSenderId: "926136734127",
-            appId: "1:926136734127:web:2330aa90dc6faaf9715f5a"
-    ));
+      options: const FirebaseOptions(
+        apiKey: "AIzaSyAxIv-Esi1r6LucIpMb7fD4oXfnXs4AL_4",
+        authDomain: "multivendor-773b9.firebaseapp.com",
+        projectId: "multivendor-773b9",
+        storageBucket: "multivendor-773b9.appspot.com",
+        messagingSenderId: "544492785321",
+        appId: "1:544492785321:web:a0afe5580901efd582a3b8"));
   var all = await SharedPreferences.getInstance();
   all.clear();
   SharedPreferences prefs = await SharedPreferences.getInstance();

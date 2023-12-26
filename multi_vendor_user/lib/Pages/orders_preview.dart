@@ -60,6 +60,7 @@ class _OrdersPreviewState extends State<OrdersPreview> {
   String userFullname = '';
   String userProfilePic = '';
   num? tip;
+  String? userId;
 
   ratingAndReviewProduct(String productID, num totalRatingProduct,
       num totalNumberOfUserRatingProduct) {
@@ -113,7 +114,10 @@ class _OrdersPreviewState extends State<OrdersPreview> {
                           .collection('Products')
                           .doc(productID)
                           .collection('Ratings')
-                          .add({
+                          .doc(userId) // Document ID là userID
+                          .set({
+                        'productId': productID,
+                        'userId': userId,
                         'rating': ratingValProduct,
                         'review': reviewProduct,
                         'fullname': userFullname,
@@ -332,6 +336,7 @@ class _OrdersPreviewState extends State<OrdersPreview> {
       userDetails =
           firestore.collection('users').doc(user!.uid).get().then((value) {
         setState(() {
+          userId = value['id'];
           wallet = value['wallet'];
           userFullname = value['fullname'];
           userProfilePic = value['photoUrl'];

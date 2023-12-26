@@ -1,4 +1,4 @@
-package com.example.multivendorappnew2
+package com.multivendor.user
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

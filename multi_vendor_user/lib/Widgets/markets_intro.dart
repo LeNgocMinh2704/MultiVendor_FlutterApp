@@ -275,21 +275,24 @@ class _MarketsIntroState extends State<MarketsIntro> {
                                                 fontSize: 12,
                                               ),
                                             ),
-                                            RatingBarIndicator(
-                                              rating: marketModel.totalRating ==
-                                                      0
-                                                  ? 0
-                                                  : marketModel.totalRating! /
-                                                      marketModel
-                                                          .totalNumberOfUserRating!,
-                                              itemBuilder: (context, index) =>
-                                                  const Icon(
-                                                Icons.star,
-                                                color: Colors.orange,
+                                            Flexible(
+                                              child: RatingBarIndicator(
+                                                rating: marketModel
+                                                            .totalRating ==
+                                                        0
+                                                    ? 0
+                                                    : marketModel.totalRating! /
+                                                        marketModel
+                                                            .totalNumberOfUserRating!,
+                                                itemBuilder: (context, index) =>
+                                                    const Icon(
+                                                  Icons.star,
+                                                  color: Colors.orange,
+                                                ),
+                                                itemCount: 5,
+                                                itemSize: 15,
+                                                direction: Axis.horizontal,
                                               ),
-                                              itemCount: 5,
-                                              itemSize: 15,
-                                              direction: Axis.horizontal,
                                             ),
                                           ],
                                         ),

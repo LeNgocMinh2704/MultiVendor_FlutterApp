@@ -160,10 +160,7 @@ class _CategoriesIntroState extends State<CategoriesIntro> {
                                   SizedBox(
                                     width: double.infinity,
                                     child: Center(
-                                      child: Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 5, right: 5),
-                                        child: marketModel.category.length >= 10
+                                      child: marketModel.category.length >= 10
                                           ? SizedBox(
                                               height: 12,
                                               child: Marquee(
@@ -202,18 +199,18 @@ class _CategoriesIntroState extends State<CategoriesIntro> {
                                               ),
                                             )
                                           : Text(
-                                          marketModel.category,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .width >=
-                                                      1100
-                                                  ? 15
-                                                  : 12),
-                                        ),
-                                      ),
+                                              marketModel.category,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                                  .size
+                                                                  .width >=
+                                                              1100
+                                                          ? 15
+                                                          : 12),
+                                            ),
                                     ),
                                   )
                                 ],
