@@ -49,16 +49,16 @@ class LanguageView extends StatelessWidget {
               locale:
                   context.supportedLocales[1] //BuildContext extension method
               ),
-          _SwitchListTileMenuItem(
-              flag: 'assets/image/spanish.gif',
-              title: 'PARAGUAY',
-              subtitle: 'Spanish',
-              locale: context.supportedLocales[0]),
-          _SwitchListTileMenuItem(
-              flag: 'assets/image/portugal.png',
-              subtitle: 'Portueges',
-              title: 'BRAZIL- PORTUGUÉS',
-              locale: context.supportedLocales[2]),
+          // _SwitchListTileMenuItem(
+          //     flag: 'assets/image/spanish.gif',
+          //     title: 'PARAGUAY',
+          //     subtitle: 'Spanish',
+          //     locale: context.supportedLocales[0]),
+          // _SwitchListTileMenuItem(
+          //     flag: 'assets/image/portugal.png',
+          //     subtitle: 'Portueges',
+          //     title: 'BRAZIL- PORTUGUÉS',
+          //     locale: context.supportedLocales[2]),
         ],
       ),
     );
