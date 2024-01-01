@@ -19,7 +19,6 @@ class Network extends StatefulWidget {
 class _NetworkState extends State<Network> {
   String _connectionStatus = 'ConnectivityResult.mobile';
   final Connectivity _connectivity = Connectivity();
-  
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
@@ -30,9 +29,6 @@ class _NetworkState extends State<Network> {
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
   }
 
-  // If the widget was removed from the tree while the asynchronous platform
-  // message was in flight, we want to discard the reply rather than calling
-  // setState to update our non-existent appearance.
   @override
   void dispose() {
     _connectivitySubscription.cancel();
@@ -49,23 +45,14 @@ class _NetworkState extends State<Network> {
       //print(e.toString());
     }
 
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
     if (!mounted) {
       return Future.value(null);
     }
 
     return _updateConnectionStatus(result);
-  }
-  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    switch (result) {
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.none:
-        setState(() => _connectionStatus = result.toString());
-        break;
-      default:
-        setState(() => _connectionStatus = 'Failed to get connectivity.');
-        break;
-    }
   }
 
   @override
@@ -78,6 +65,19 @@ class _NetworkState extends State<Network> {
       return const Wrapper();
     }
     return const ConnectivityError();
+  }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    switch (result) {
+      case ConnectivityResult.wifi:
+      case ConnectivityResult.mobile:
+      case ConnectivityResult.none:
+        setState(() => _connectionStatus = result.toString());
+        break;
+      default:
+        setState(() => _connectionStatus = 'Failed to get connectivity.');
+        break;
+    }
   }
 }
 

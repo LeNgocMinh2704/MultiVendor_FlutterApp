@@ -16,13 +16,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  String email = '';
+  String password = '';
+  final _formKey = GlobalKey<FormState>();
   Timer? oneSignalTimer;
   String playerId = '';
   String getOnesignalKey = '';
   bool showPassword = true;
-  String email = '';
-  String password = '';
-  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -61,7 +61,6 @@ class _LoginPageState extends State<LoginPage> {
 
   getOneSignalDetails() {
     if (getOnesignalKey == '') {
-      debugPrint('$getOnesignalKey is firebase oneSignal key');
       FirebaseFirestore.instance
           .collection('Push notification Settings')
           .doc('OneSignal')

@@ -39,20 +39,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     });
   }
 
-    void updateSeleted(
-    RoundedLoadingButtonController controller,
-    String email,
-    BuildContext context,
-  ) async {
-    AuthService().forgotPassword(context, email).then((value) {
-      if (AuthService().forgotPasswordStatus == true) {
-        controller.success();
-      } else {
-        controller.reset();
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,10 +94,6 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                         ),
                         Flexible(
                           flex: 6,
-                          color: Colors.blue,
-                          successIcon: Icons.done,
-                          failedIcon: Icons.error,
-                          controller: _btnController1,
                           child: TextFormField(
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
@@ -137,6 +119,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   const SizedBox(height: 20),
                   const SizedBox(height: 10),
                   RoundedLoadingButton(
+                    color: Colors.blue,
+                    successIcon: Icons.done,
+                    failedIcon: Icons.error,
+                    controller: _btnController1,
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _doSomething(

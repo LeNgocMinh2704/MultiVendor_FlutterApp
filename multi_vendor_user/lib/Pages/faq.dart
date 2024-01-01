@@ -19,10 +19,6 @@ class _FaqPageState extends State<FaqPage> {
           backgroundColor: Theme.of(context).colorScheme.background,
           centerTitle: true,
           elevation: 0,
-          : Colors.blue,
-          successIcon: Icons.done,
-          failedIcon: Icons.error,
-          controller: _btnController1,
           title: const Text(
             'Faq',
           ).tr()),

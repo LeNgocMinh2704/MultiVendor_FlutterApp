@@ -3,11 +3,6 @@ class CategoriesModel {
 
   final String category;
   final String image;
-  final String houseNumber;
-  final String closestbusStop;
-  final String id;
-  final String? uid;
-  
   CategoriesModel({
     required this.category,
     this.uid,

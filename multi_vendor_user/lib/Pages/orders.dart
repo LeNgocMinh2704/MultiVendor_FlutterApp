@@ -15,24 +15,37 @@ class OrdersPage extends StatefulWidget {
 
 class _OrdersPageState extends State<OrdersPage> {
   @override
-    getFavorite() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .collection('Favorite')
-        .where('marketID', isEqualTo: widget.productsModel.marketID)
-        .where('vendorId', isEqualTo: widget.productsModel.vendorId)
-        .where('name', isEqualTo: widget.productsModel.name)
-        .snapshots()
-        .listen((value) {
-      setState(() {
-        isFavorite = value.docs.isNotEmpty;
-      });
-    });
-  }
   Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 5,
+      child: Scaffold(
+        appBar: AppBar(
+          iconTheme: Theme.of(context).iconTheme,
+          titleTextStyle: TextStyle(color: Theme.of(context).indicatorColor),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          elevation: 0,
+          centerTitle: true,
+          title: const Text(
+            'Orders',
+          ).tr(),
+          bottom: TabBar(
+            isScrollable: true,
+            tabs: [
+              Tab(
+                text: 'All'.tr(),
+              ),
+              Tab(text: 'Received'.tr()),
+              Tab(text: 'Processing'.tr()),
+              Tab(text: 'Completed'.tr()),
+              Tab(text: 'Cancelled'.tr()),
+            ],
+            indicator: DotIndicator(
+              distanceFromCenter: 16,
+              radius: 3,
+              paintingStyle: PaintingStyle.fill,
+            ),
+          ),
+        ),
         body: const TabBarView(
           children: [
             AllOrders(),

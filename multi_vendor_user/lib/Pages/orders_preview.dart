@@ -28,21 +28,27 @@ class OrdersPreview extends StatefulWidget {
 }
 
 class _OrdersPreviewState extends State<OrdersPreview> {
-  num riderWallet = 0;
-  bool confirmationStatus = false;
-  String getOnesignalKey = '';
-  String playerId = '';
-  num? tip;
   int _index = 0;
   String marketName = '';
-  String riderPhone = '';
-  num wallet = 0;  Timer? oneSignalTimer;
-  num totalNumberOfUserRatingRider = 0;
-  num totalNumberOfUserRatingMarket = 0;
   String marketAddress = '';
   String marketPhone = '';
   String riderName = '';
   String riderAddress = '';
+  String riderPhone = '';
+  num wallet = 0;
+  DocumentReference? userDetails;
+  String orderStatus = '';
+  bool accepted = false;
+  bool acceptDelivery = false;
+  String deliveryAddress = '';
+  String deliveryBoyID = '';
+  num riderWallet = 0;
+  bool confirmationStatus = false;
+  String getOnesignalKey = '';
+  String playerId = '';
+  Timer? oneSignalTimer;
+  num totalNumberOfUserRatingRider = 0;
+  num totalNumberOfUserRatingMarket = 0;
   num totalRatingRider = 0;
   num totalRatingMarket = 0;
   String reviewMarket = '';
@@ -53,13 +59,7 @@ class _OrdersPreviewState extends State<OrdersPreview> {
   num ratingValProduct = 0;
   String userFullname = '';
   String userProfilePic = '';
-  DocumentReference? userDetails;
-  String orderStatus = '';
-  bool accepted = false;
-  bool acceptDelivery = false;
-  String deliveryAddress = '';
-  String deliveryBoyID = '';
-
+  num? tip;
   String? userId;
 
   ratingAndReviewProduct(String productID, num totalRatingProduct,
