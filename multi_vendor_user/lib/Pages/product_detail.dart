@@ -175,24 +175,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     super.initState();
   }
 
-  getRelate() {
-    final FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
-    FirebaseFirestore.instance
-        .collection('users')
-        .doc(user!.uid)
-        .collection('Favorite')
-        .where('marketID', isEqualTo: widget.productsModel.marketID)
-        .where('vendorId', isEqualTo: widget.productsModel.vendorId)
-        .where('name', isEqualTo: widget.productsModel.name)
-        .snapshots()
-        .listen((value) {
-      setState(() {
-        isFavorite = value.docs.isNotEmpty;
-      });
-    });
-  }
-
   Future<void> _getUserDetails() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -251,14 +233,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     });
   }
 
-  Future notifyCare() async {
-    userRef!.collection('Cart').get().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.docs) {
-        ds.reference.delete();
-      }
-    });
-  }
-
   getselectedMarket() {
     userRef!.get().then((value) {
       setState(() {
@@ -306,24 +280,6 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   num ratingAndReview = 0;
   num totalUser = 0;
   getRatingAndReview() {
-    FirebaseFirestore.instance
-        .collection('Products')
-        .doc(widget.productsModel.productID)
-        .collection('Ratings')
-        .get()
-        .then((val) {
-      num rating = val.docs.fold(0, (tot, doc) => tot + doc.data()['rating']);
-      num totalUserRating = val.docs.length;
-      setState(() {
-        ratingAndReview = (rating / totalUserRating).roundToDouble();
-        totalUser = totalUserRating;
-      });
-    });
-    debugPrint('$ratingAndReview is the average rating');
-    return ratingAndReview;
-  }
-
-    getRevire() {
     FirebaseFirestore.instance
         .collection('Products')
         .doc(widget.productsModel.productID)

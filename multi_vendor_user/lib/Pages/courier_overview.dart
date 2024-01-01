@@ -91,6 +91,7 @@ class _CourierOverviewState extends State<CourierOverview> {
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.TOP,
                   timeInSecForIosWeb: 1,
+
                   fontSize: 14.0);
             });
           });

@@ -29,16 +29,6 @@ class _CategoriesIntroState extends State<CategoriesIntro> {
             .toList());
   }
 
-    Future<List<CategoriesModel>> getrelateCate() {
-    return FirebaseFirestore.instance
-        .collection('Categories')
-        .limit(12)
-        .get()
-        .then((event) => event.docs
-            .map((e) => CategoriesModel.fromMap(e.data(), e.id))
-            .toList());
-  }
-
   final CarouselController controller = CarouselController();
 
   @override
@@ -58,6 +48,11 @@ class _CategoriesIntroState extends State<CategoriesIntro> {
                       highlightColor: Colors.grey[100]!,
                       enabled: true,
                       child: GridView.builder(
+                          padding: const EdgeInsets.only(bottom: 20),
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: MediaQuery.of(context).size.width >= 1100
+                              ? 12
+                              : 12,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: MediaQuery.of(context).size.width >=
@@ -77,6 +72,11 @@ class _CategoriesIntroState extends State<CategoriesIntro> {
                                     const EdgeInsets.only(left: 10, right: 10),
                                 child: Column(
                                   children: [
+                                    Card(
+                                      elevation: 0,
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
                                       )),
                                       child: Container(
                                           decoration: BoxDecoration(
@@ -86,6 +86,8 @@ class _CategoriesIntroState extends State<CategoriesIntro> {
                                           ),
                                           width: 40,
                                           height: 40),
+                                    ),
+                                    const SizedBox(height: 10),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 10, right: 10),
