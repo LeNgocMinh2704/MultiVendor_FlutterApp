@@ -1,13 +1,14 @@
 ## CHUYÊN ĐỀ MOBILE AND PERVASIVE COMPUTING
 # Nhóm 11 - Nguyễn Đặng Hữu Phúc - Lê Ngọc Minh
 
-# Multivendor App
-	admin app
-    rider app
-	client app
-    user app
-# Hướng dẫn cài đặt :
-    - Cài đặt flutter SDK
-    - Vào từng folder chạy ```flutter pub get``` để cài đặt dependencies
-    - Load 3 android emulator và ```flutter run``` ở 3 folder user, client và rider app 
-    - ```flutter run``` trong folder admin để chạy web quản lý admin (dùng browser như chrome)
+# Ứng Dụng Multivendor
+   - Ứng Dụng Quản Trị (Admin)
+   - Ứng Dụng Người Giao Hàng (Rider)
+   - Ứng Dụng Khách Hàng (Client)
+   - Ứng Dụng Người Dùng (User)
+
+# Hướng Dẫn Cài Đặt:
+   - Cài đặt Flutter SDK.
+   - Trong từng thư mục, chạy lệnh ```flutter pub get``` để cài đặt các dependencies.
+   - Khởi chạy ba máy ảo Android và chạy ```flutter run``` trong ba thư mục tương ứng với user app, client app và rider app.
+   - Chạy ```flutter run``` trong thư mục admin để khởi chạy ứng dụng quản trị cho admin trên web (sử dụng trình duyệt như Chrome).
