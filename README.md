@@ -3,10 +3,11 @@
 
 # Multivendor App
 	admin app
+    rider app
 	client app
     user app
 # Hướng dẫn cài đặt :
     - Cài đặt flutter SDK
     - Vào từng folder chạy ```flutter pub get``` để cài đặt dependencies
-    - Load 2 android emulator và ```flutter run``` ở 2 folder user app và client app
-    - ```flutter run``` trong folder admin để chạy app admin dùng browser như chrome
+    - Load 3 android emulator và ```flutter run``` ở 3 folder user, client và rider app 
+    - ```flutter run``` trong folder admin để chạy web quản lý admin (dùng browser như chrome)

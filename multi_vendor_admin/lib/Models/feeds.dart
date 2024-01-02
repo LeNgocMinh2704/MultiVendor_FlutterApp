@@ -8,6 +8,7 @@ class FeedsModel {
   final String detail;
   final bool? slider;
   FeedsModel(
+    // Feed err ?
       {required this.category,
       this.uid,
       this.slider,
